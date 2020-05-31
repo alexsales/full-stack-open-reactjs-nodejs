@@ -24,25 +24,19 @@ const App = () => {
   const isFirstRender = useRef(true);
 
   useEffect(() => {
+    console.log('stats updated', good, neutral, bad);
+
+    let numOfFeedback = good + neutral + bad;
+
     if (isFirstRender.current) {
       isFirstRender.current = false;
       return;
     }
 
-    console.log('stats updated', good, neutral, bad);
-
-    let numOfFeedback = null;
-    let feedbackAvg = null;
-    let positivePercentage = null;
-
-    numOfFeedback = good + neutral + bad;
-    feedbackAvg = (good * 1 + neutral * 0 + bad * -1) / numOfFeedback;
-    positivePercentage = good / numOfFeedback;
-
     setMoreStats({
       totalResponses: numOfFeedback,
-      avgFeedback: !!feedbackAvg ? feedbackAvg : 'N/A',
-      percentPositive: !!positivePercentage ? positivePercentage : 'N/A',
+      avgFeedback: (good * 1 + neutral * 0 + bad * -1) / numOfFeedback,
+      percentPositive: good / numOfFeedback,
     });
   }, [good, neutral, bad]);
 
@@ -60,17 +54,6 @@ const App = () => {
         {moreStats.totalResponses === 0 ? (
           <p>No feedback given</p>
         ) : (
-          // <ul>
-          //   <Statistics text='good' value={good} />
-          //   <Statistics text='neutral' value={neutral} />
-          //   <Statistics text='bad' value={bad} />
-          //   <Statistics text='all' value={moreStats.totalResponses} />
-          //   <Statistics text='avg feedback' value={moreStats.avgFeedback} />
-          //   <Statistics
-          //     text='percent positive'
-          //     value={moreStats.percentPositive}
-          //   />
-          // </ul>
           <table>
             <tbody>
               <tr>
