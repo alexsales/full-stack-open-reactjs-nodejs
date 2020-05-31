@@ -60,17 +60,57 @@ const App = () => {
         {moreStats.totalResponses === 0 ? (
           <p>No feedback given</p>
         ) : (
-          <ul>
-            <Statistics text='good' value={good} />
-            <Statistics text='neutral' value={neutral} />
-            <Statistics text='bad' value={bad} />
-            <Statistics text='all' value={moreStats.totalResponses} />
-            <Statistics text='avg feedback' value={moreStats.avgFeedback} />
-            <Statistics
-              text='percent positive'
-              value={moreStats.percentPositive}
-            />
-          </ul>
+          // <ul>
+          //   <Statistics text='good' value={good} />
+          //   <Statistics text='neutral' value={neutral} />
+          //   <Statistics text='bad' value={bad} />
+          //   <Statistics text='all' value={moreStats.totalResponses} />
+          //   <Statistics text='avg feedback' value={moreStats.avgFeedback} />
+          //   <Statistics
+          //     text='percent positive'
+          //     value={moreStats.percentPositive}
+          //   />
+          // </ul>
+          <table>
+            <tbody>
+              <tr>
+                <td>
+                  <Statistics text='good' value={good} />
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <Statistics text='neutral' value={neutral} />
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <Statistics text='bad' value={bad} />
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <Statistics text='all' value={moreStats.totalResponses} />
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <Statistics
+                    text='avg feedback'
+                    value={moreStats.avgFeedback}
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <Statistics
+                    text='percent positive'
+                    value={moreStats.percentPositive}
+                  />
+                </td>
+              </tr>
+            </tbody>
+          </table>
         )}
       </div>
     </div>
