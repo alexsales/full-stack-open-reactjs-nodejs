@@ -1,6 +1,26 @@
-import React, { useState, useEffect } from 'react';
-import logo from './logo.svg';
+import React, { useState, useEffect, useRef } from 'react';
 import './App.css';
+
+const Statistics = (props) => {
+  return (
+    <div>
+      <h2>Statistics</h2>
+
+      {props.moreStats.totalResponses === 0 ? (
+        <p>No feedback given</p>
+      ) : (
+        <ul>
+          <li>good: {props.good}</li>
+          <li>neutral: {props.neutral}</li>
+          <li>bad: {props.bad}</li>
+          <li>all: {props.moreStats.totalResponses}</li>
+          <li>avg feedback: {props.moreStats.avgFeedback}</li>
+          <li>percent positive: {props.moreStats.percentPositive}</li>
+        </ul>
+      )}
+    </div>
+  );
+};
 
 const App = () => {
   const [good, setGood] = useState(0);
@@ -12,7 +32,26 @@ const App = () => {
     percentPositive: 0,
   });
 
-  const updateStats = () => {
+  const isFirstRender = useRef(true);
+
+  const clickHandler = (evt, feedback) => {
+    if (feedback === 'good') {
+      setGood(good + 1);
+    }
+    if (feedback === 'neutral') {
+      setNeutral(neutral + 1);
+    }
+    if (feedback === 'bad') {
+      setBad(bad + 1);
+    }
+  };
+
+  useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
+
     console.log('stats updated', good, neutral, bad);
     let numOfFeedback = null;
     let feedbackAvg = null;
@@ -23,30 +62,10 @@ const App = () => {
     positivePercentage = good / numOfFeedback;
 
     setMoreStats({
-      ...moreStats,
       totalResponses: numOfFeedback,
       avgFeedback: !!feedbackAvg ? feedbackAvg : 'N/A',
       percentPositive: !!positivePercentage ? positivePercentage : 'N/A',
     });
-  };
-
-  const clickHandler = (evt, feedback) => {
-    if (feedback === 'good') {
-      setGood(good + 1);
-      return updateStats(good + 1, neutral, bad);
-    }
-    if (feedback === 'neutral') {
-      setNeutral(neutral + 1);
-      return updateStats(good, neutral + 1, bad);
-    }
-    if (feedback === 'bad') {
-      setBad(bad + 1);
-      return updateStats(good, neutral, bad + 1);
-    }
-  };
-
-  useEffect(() => {
-    updateStats();
   }, [good, neutral, bad]);
 
   return (
@@ -59,18 +78,12 @@ const App = () => {
         </button>
         <button onClick={(event) => clickHandler(event, 'bad')}>bad</button>
       </div>
-
-      <div>
-        <h2>Statistics</h2>
-        <ul>
-          <li>good: {good}</li>
-          <li>neutral: {neutral}</li>
-          <li>bad: {bad}</li>
-          <li>all: {moreStats.totalResponses}</li>
-          <li>avg feedback: {moreStats.avgFeedback}</li>
-          <li>percent positive: {moreStats.percentPositive}</li>
-        </ul>
-      </div>
+      <Statistics
+        good={good}
+        neutral={neutral}
+        bad={bad}
+        moreStats={moreStats}
+      />
     </div>
   );
 };
