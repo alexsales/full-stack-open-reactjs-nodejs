@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import './App.css';
 
 const App = () => {
-  const [selected, setSelected] = useState(0);
+  const [selected, setSelected] = useState(Math.floor(Math.random() * 6));
+  const [votes, setVotes] = useState({});
   const anecdotes = [
     'If it hurts, do it more often',
     'Adding manpower to a late software project makes it later!',
@@ -16,16 +17,24 @@ const App = () => {
     setSelected(Math.floor(Math.random() * 6));
   };
 
-  useEffect(() => {
-    newQuote();
-  }, []);
+  const updateVotes = (selectedQuote) => {
+    const incrementedVote = !!votes[selectedQuote]
+      ? votes[selectedQuote] + 1
+      : 1;
 
-  console.log(selected);
+    setVotes({
+      ...votes,
+      [selectedQuote]: incrementedVote,
+    });
+  };
+
+  console.log(selected, votes);
 
   return (
     <>
       <div className='App'>
         <div>{anecdotes[selected]}</div>
+        <button onClick={() => updateVotes(selected)}>Vote</button>
         <button onClick={newQuote}>Generate Random Quote</button>
       </div>
     </>
