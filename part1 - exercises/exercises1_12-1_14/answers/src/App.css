@@ -15,10 +15,12 @@ button {
   pointer-events: none;
 }
 
-.App > div {
-  font-weight: bold;
-  font-size: 1.75rem;
+.anecdoteContainer {
   margin-bottom: 50px;
+}
+.anecdote {
+  font-size: 1.25rem;
+  margin-bottom: 30px;
 }
 
 @media (prefers-reduced-motion: no-preference) {
