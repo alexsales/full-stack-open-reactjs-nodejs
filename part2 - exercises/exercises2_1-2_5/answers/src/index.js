@@ -5,7 +5,7 @@ const Header = (props) => <h1>{props.course.name}</h1>;
 
 const Part = (props) => (
   <p>
-    {props.val.part} {props.val.exercises}
+    {props.val.name} {props.val.exercises}
   </p>
 );
 
@@ -25,32 +25,68 @@ const Total = (props) => {
   return <p>Number of exercises {totalExercises > 0 ? totalExercises : 0}</p>;
 };
 
+const Course = ({ course }) => {
+  return (
+    <>
+      <Header course={course} />
+      <Content course={course} />
+      <Total course={course} />
+    </>
+  );
+};
+
 const App = () => {
   const course = {
+    id: 1,
     name: 'Half Stack application development',
     parts: [
       {
-        part: 'Fundamentals of React',
+        name: 'Fundamentals of React',
         exercises: 10,
+        id: 1,
       },
       {
-        part: 'Using props to pass data',
+        name: 'Using props to pass data',
         exercises: 7,
+        id: 2,
       },
       {
-        part: 'State of a component',
+        name: 'State of a component',
         exercises: 14,
+        id: 3,
       },
     ],
   };
 
-  return (
-    <div>
-      <Header course={course} />
-      <Content course={course} />
-      <Total course={course} />
-    </div>
-  );
+  return <Course course={course} />;
 };
+
+// const App = () => {
+//   const course = {
+//     name: 'Half Stack application development',
+//     parts: [
+//       {
+//         part: 'Fundamentals of React',
+//         exercises: 10,
+//       },
+//       {
+//         part: 'Using props to pass data',
+//         exercises: 7,
+//       },
+//       {
+//         part: 'State of a component',
+//         exercises: 14,
+//       },
+//     ],
+//   };
+
+//   return (
+//     <div>
+//       <Header course={course} />
+//       <Content course={course} />
+//       <Total course={course} />
+//     </div>
+//   );
+// };
 
 ReactDOM.render(<App />, document.getElementById('root'));
