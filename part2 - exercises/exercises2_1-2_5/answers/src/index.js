@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import './index.css';
 
 const Header = (props) => <h1>{props.course.name}</h1>;
 
@@ -55,38 +56,15 @@ const App = () => {
         exercises: 14,
         id: 3,
       },
+      {
+        name: 'Redux',
+        exercises: 11,
+        id: 4,
+      },
     ],
   };
 
   return <Course course={course} />;
 };
-
-// const App = () => {
-//   const course = {
-//     name: 'Half Stack application development',
-//     parts: [
-//       {
-//         part: 'Fundamentals of React',
-//         exercises: 10,
-//       },
-//       {
-//         part: 'Using props to pass data',
-//         exercises: 7,
-//       },
-//       {
-//         part: 'State of a component',
-//         exercises: 14,
-//       },
-//     ],
-//   };
-
-//   return (
-//     <div>
-//       <Header course={course} />
-//       <Content course={course} />
-//       <Total course={course} />
-//     </div>
-//   );
-// };
 
 ReactDOM.render(<App />, document.getElementById('root'));
