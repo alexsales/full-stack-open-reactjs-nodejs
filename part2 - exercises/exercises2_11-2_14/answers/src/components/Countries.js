@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 
 const Countries = (props) => {
   const [selectedCountry, setSelectedCountry] = useState({});
+
   const handleShow = (evt, country) => {
     // console.log('handle show: ', evt.target.getAttribute('id'));
     evt.preventDefault();
@@ -50,35 +51,46 @@ const Countries = (props) => {
               value='show'
               onClick={(evt) => handleShow(evt, country)}
             />
+            {!!selectedCountry &&
+            !!selectedCountry.name &&
+            selectedCountry.name === country.name ? (
+              <div>
+                <h2>{selectedCountry.name}</h2>
+                <div>Capital: {selectedCountry.capital}</div>
+                <div>Population: {selectedCountry.population}</div>
+                <div>
+                  Languages:{' '}
+                  <ul>
+                    {selectedCountry.languages !== undefined
+                      ? selectedCountry.languages.map((lang) => (
+                          <li key={lang.iso639_1}>{lang.name}</li>
+                        ))
+                      : null}
+                  </ul>
+                </div>
+                <div>
+                  Flag:{' '}
+                  <span className='flag'>
+                    <img
+                      src={selectedCountry.flag}
+                      width='200px'
+                      alt='country flag'
+                    />
+                  </span>
+                </div>
+              </div>
+            ) : (
+              ''
+            )}
           </li>
         );
       });
     }
   })();
+
   return (
     <>
       <div>{countriesRender}</div>
-      <div>
-        <h2>{selectedCountry.name}</h2>
-        <div>Capital: {selectedCountry.capital}</div>
-        <div>Population: {selectedCountry.population}</div>
-        <div>
-          Languages:{' '}
-          <ul>
-            {selectedCountry.languages !== undefined
-              ? selectedCountry.languages.map((lang) => (
-                  <li key={lang.iso639_1}>{lang.name}</li>
-                ))
-              : null}
-          </ul>
-        </div>
-        <div>
-          Flag:{' '}
-          <span className='flag'>
-            <img src={selectedCountry.flag} width='200px' alt='country flag' />
-          </span>
-        </div>
-      </div>
     </>
   );
 };
