@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
 const Countries = (props) => {
   const [selectedCountry, setSelectedCountry] = useState({});
+  const [selectedWeather, setSelectedWeather] = useState({});
 
   const handleShow = (evt, country) => {
     // console.log('handle show: ', evt.target.getAttribute('id'));
@@ -82,11 +84,55 @@ const Countries = (props) => {
             ) : (
               ''
             )}
+            {!!selectedCountry &&
+            !!selectedCountry.name &&
+            selectedCountry.capital === country.capital &&
+            !!selectedWeather.current ? (
+              <div>
+                <h2>Weather in {selectedCountry.capital}</h2>
+                <div>
+                  Temperature: {selectedWeather.current.temperature} Celcius
+                </div>
+                <div>
+                  <span className='flag'>
+                    <img
+                      src={selectedWeather.current.weather_icons[0]}
+                      width='200px'
+                      alt='country weather'
+                    />
+                  </span>
+                </div>
+                <div>
+                  Wind: {selectedWeather.current.wind_speed} mph direction{' '}
+                  {selectedWeather.current.wind_dir}
+                </div>
+              </div>
+            ) : (
+              ''
+            )}
           </li>
         );
       });
     }
   })();
+
+  const hookWeather = () => {
+    console.log('chosen country changed');
+    // console.log(selectedCountry);
+    axios
+      .get(
+        `http://api.weatherstack.com/current?access_key=${process.env.REACT_APP_WEATHER_API}&query=${selectedCountry.capital}`
+      )
+      .then((resp) => {
+        setSelectedWeather(resp.data);
+      })
+      .catch((error) => {
+        console.log('error/no match');
+        setSelectedCountry({});
+      });
+  };
+
+  useEffect(hookWeather, [selectedCountry]);
 
   return (
     <>

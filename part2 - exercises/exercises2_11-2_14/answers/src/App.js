@@ -37,7 +37,7 @@ const App = () => {
 
   const hookPersons = () => {
     console.log('axios get /persons');
-    axios.get('http://localhost:3001/persons').then((resp) => {
+    axios.get('http://localhost:3004/persons').then((resp) => {
       console.log('persons: ', resp);
       setPersons(resp.data);
     });
